@@ -1,0 +1,5 @@
+files/sudoku.csv
+.idea/
+*.iml
+out/
+sudokuBackup.csv
