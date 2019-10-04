@@ -17,40 +17,8 @@
     }
  */
 
-public class Column {
-    private int id;
-    private Cell[] cells;
-
+public class Column extends SudokuStructure {
     public Column(int id, Cell[] cells) {
-        this.id = id;
-        this.cells = cells;
-    }
-
-    public int getId() {
-        return this.id;
-    }
-
-    public Column addCell(Cell cell, int position) {
-        this.cells[position] = cell;
-        return this;
-    }
-
-    public int countEmptyCells() {
-        int emptyCells = 0;
-        for(int i = 0; i < this.cells.length; i++) {
-            System.out.println("Reading cell and checking if empty: " + this.cells[i]);
-            if (this.cells[i].getValue() == '0') {
-                emptyCells++;
-            }
-        }
-        return emptyCells;
-    }
-
-    public Cell getCell(int index) {
-        return this.cells[index];
-    }
-
-    public int getLenght() {
-        return this.cells.length;
+    	super(id, cells);
     }
 }

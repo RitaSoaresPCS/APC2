@@ -3,3 +3,6 @@ files/sudoku.csv
 *.iml
 out/
 sudokuBackup.csv
+/bin/
+.classpath
+.project
