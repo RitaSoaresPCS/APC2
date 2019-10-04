@@ -11,17 +11,22 @@ public class SudokuFileLoader {
 	public ArrayList<String> problems = new ArrayList<String>();
 	public ArrayList<String> solutions = new ArrayList<String>();
 	
-	public SudokuFileLoader(String filePath) {
+	public SudokuFileLoader(String filePath, boolean header) {
 		BufferedReader file;
 		try {
 			file = new BufferedReader(new FileReader(filePath));
 			
 			String line;
 			while ((line = file.readLine()) != null) {
-			    String[] data = line.split(",");
-	            
-	            this.problems.add(data[0]);
-	            this.solutions.add(data[1]);
+				// Pula primeira linha, se existir:
+				if (header) {
+					header = false;
+				} else {
+					String[] data = line.split(",");
+					
+					this.problems.add(data[0]);
+					this.solutions.add(data[1]);
+				}
 			}
 			
 			file.close();

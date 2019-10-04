@@ -1,7 +1,7 @@
 public class Main {
     public static void main(String[] args) {
         SudokuFileLoader loader =
-                new SudokuFileLoader("..\\Heuristicas-Sudoku\\files\\sudoku.csv");
+                new SudokuFileLoader("..\\Heuristicas-Sudoku\\files\\sudoku.csv", true);
         System.out.println(loader.problems.get(1));
 
         SudokuProblem sudokuProblem = new SudokuProblem(loader, 1, 3);
