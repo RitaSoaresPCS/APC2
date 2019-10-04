@@ -12,7 +12,7 @@
         Cell[] cells = new int[n^2];
         Column col = new Column(c, cells);
         for (int cl = 0; cl < n^2; cl++) {
-            col.addCell(sudokuArray[(c-1)+(cl*(n^2))])
+            col.setCell(sudokuArray[(c-1)+(cl*(n^2))])
         }
     }
  */

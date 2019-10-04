@@ -8,10 +8,7 @@ public class Main {
         Column[] columns = sudokuProblem.getColumns();
 
         for (int i = 0; i < columns.length; i++) {
-            System.out.println("Column: " + columns[i].getId());
-            for(int j = 0; j < columns[i].getLength(); j++) {
-                System.out.println(columns[i].getCell(j).getValue());
-            }
+            System.out.println("Column: " + columns[i]);
         }
 
         // Exemplo: problema e solucao da linha 3 arquivo .csv:

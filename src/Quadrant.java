@@ -9,7 +9,7 @@
             Cell[] cells = new int[n^2];
             Quadrant quad = new Quadrant(q, cells);
             for (int cl = 0; cl < n^2; cl++) {
-                quad.addCell(sudokuArray[((r-1)*(n^2))+cl])
+                quad.setCell(sudokuArray[((r-1)*(n^2))+cl])
             }
         }
     }

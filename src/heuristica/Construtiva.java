@@ -1,7 +1,5 @@
 package heuristica;
-
 public class Construtiva {
-	
 	
 	/*
 	 Ex1:
