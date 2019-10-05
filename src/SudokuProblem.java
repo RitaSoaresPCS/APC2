@@ -62,7 +62,7 @@ public class SudokuProblem {
             Row row = new Row(r, rowCells);
             for (int cl = 0; cl < nSize2; cl++) {
                 this.cells[((r-1)*(nSize2))+cl].setRow(row);
-                row.setCell(this.cells[((r-1)*nSize)+cl], cl);
+                row.setCell(this.cells[((r-1)*(int)Math.pow(nSize,2)+cl)], cl);
             }
             this.rows[r-1] = row;
         }
@@ -89,8 +89,8 @@ public class SudokuProblem {
             Quadrant quad = new Quadrant(q, quadCells);
             int quadFirstCell = (nSize*((q-1)%nSize))+(int)(Math.pow(nSize, 3)*(Math.floor((q-1)/nSize)));
             for (int cl = 0; cl < nSize2; cl++) {
-                quad.setCell(this.cells[(int)(quadFirstCell + (cl%nSize) + nSize*(Math.floor(cl/nSize)))], cl);
-                this.cells[(int)(quadFirstCell + (cl%nSize) + nSize*(Math.floor(cl/nSize)))].setQuadrant(quad);
+                quad.setCell(this.cells[(int)(quadFirstCell + (cl%nSize) + Math.pow(nSize,2)*(Math.floor(cl/nSize)))], cl);
+                this.cells[(int)(quadFirstCell + (cl%nSize) + Math.pow(nSize,2)*(Math.floor(cl/nSize)))].setQuadrant(quad);
             }
             this.quadrants[q-1] = quad;
         }
