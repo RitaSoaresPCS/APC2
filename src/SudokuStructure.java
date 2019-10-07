@@ -1,11 +1,46 @@
 
 public abstract class SudokuStructure {
-	protected int id;
+    protected boolean ignored;
+    protected boolean bestSolved;
+    protected boolean solved;
+    protected int id;
 	protected Cell[] cells;
 
     public SudokuStructure(int id, Cell[] cells) {
         this.id = id;
         this.cells = cells;
+    }
+
+    public void setIgnored(boolean ignored) {
+        this.ignored = ignored;
+    }
+
+    public void setBestSolved(boolean bestSolved) {
+        this.bestSolved = bestSolved;
+    }
+
+    public void setSolved(boolean solved) {
+        this.solved = solved;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setCells(Cell[] cells) {
+        this.cells = cells;
+    }
+
+    public boolean isIgnored() {
+        return ignored;
+    }
+
+    public boolean isBestSolved() {
+        return bestSolved;
+    }
+
+    public boolean isSolved() {
+        return solved;
     }
 
     public SudokuStructure setCell(Cell cell, int position) {
@@ -48,7 +83,7 @@ public abstract class SudokuStructure {
     }
     public Cell getFirstEmptyCell() {
         for(int i = 0; i < this.cells.length; i++) {
-            if (this.getCellValue(i) == '0') {
+            if (this.getCellValue(i) == '0' && !this.getCell(i).isIgnored()) {
                 return this.getCell(i);
             }
         }
@@ -65,14 +100,48 @@ public abstract class SudokuStructure {
     }
     public char[] getAvailableValues(char[] valuesDomain) {
         char[] availableValues = valuesDomain.clone();
-        for(int i = 0; i < this.cells.length; i++) {
-            for(int j = 0; j < valuesDomain.length; j++) {
-                if(this.cells[i].getValue() == valuesDomain[j]) {
-                    availableValues[j] = 0;
+        for (int i = 0; i < this.cells.length; i++) {
+            for (int j = 0; j < valuesDomain.length; j++) {
+                if (this.cells[i].getValue() == valuesDomain[j]) {
+                    availableValues[j] = '0';
                 }
             }
         }
-        return availableValues;
+        int nAvailVals = 0;
+        for (int i = 0; i < availableValues.length; i++) {
+            if (availableValues[i] != '0') {
+                nAvailVals++;
+            }
+        }
+
+        if (nAvailVals == 0) {
+            return null;
+        } else {
+            char[] availValsFiltered = new char[nAvailVals];
+
+            int aux = 0;
+            for (int i = 0; i < availableValues.length; i++) {
+                if (availableValues[i] != '0') {
+                    availValsFiltered[aux] = availableValues[i];
+                    aux++;
+                }
+                if (aux == nAvailVals) {
+                    break;
+                }
+            }
+
+            return availValsFiltered;
+        }
+    }
+
+    public boolean checkIfValueAvailable(char value, char[] valuesDomain) {
+        char[] availableValues = this.getAvailableValues(valuesDomain);
+        for(int i = 0; i < availableValues.length; i++) {
+            if(value == availableValues[i]) {
+                return false;
+            }
+        }
+        return false;
     }
     public boolean isValueValid(char value, char[] valuesDomain) {
         char[] availableValues = this.getAvailableValues(valuesDomain);
@@ -84,11 +153,10 @@ public abstract class SudokuStructure {
         return false;
     }
     public String toString() {
-        String classString = this.getClass().toString() + ": ";
         String contentString = "";
         for(int i = 0; i < this.getLength(); i++) {
             contentString += this.cells[i].getValue() + " ";
         }
-        return classString + contentString;
+        return contentString;
     }
 }
