@@ -31,6 +31,9 @@ public class SudokuProblem {
         // Initializing sudoku cells from sudoku problem. Every row, column and quadrant will point to these cells:
         for(int i = 0; i < nSize4; i++) {
             this.cells[i] = new Cell(i, sudokuProblemString.charAt(i));
+            if (sudokuProblemString.charAt(i) != '0') {
+            	this.cells[i].fixed = true;
+            }
         }
 
         // Building structures that point to previous cells:
@@ -48,6 +51,11 @@ public class SudokuProblem {
     public Quadrant[] getQuadrants() {
         return this.quadrants;
     }
+    
+    public Quadrant getQuadrant(int id) {
+    	return this.quadrants[id];
+    }
+    
     public Cell[] getCells() {
         return this.cells;
     }
@@ -96,4 +104,29 @@ public class SudokuProblem {
         }
         return this;
     }
+    
+    
+    
+    public String toString() {
+    	String content = "";
+        for (int i = 0; i < rows.length; i++) {
+        	content += rows[i] + "\r\n";
+        }
+        return content;	
+    }
+
+    
+    /**
+     * Muda duas celulas de um quadrante de lugar de acordo com os ids.
+     * @param quadrantId
+     * @param cell1Id
+     * @param cell2Id
+     */
+	public void quadrantCellSwap(int quadrantId, int cell1Id, int cell2Id) {
+		char cell1 = this.quadrants[quadrantId].getCell(cell1Id).getValue();
+		char cell2 = this.quadrants[quadrantId].getCell(cell2Id).getValue();
+		this.quadrants[quadrantId].getCell(cell1Id).setValue(cell2);
+		this.quadrants[quadrantId].getCell(cell2Id).setValue(cell1);
+		
+	}
 }

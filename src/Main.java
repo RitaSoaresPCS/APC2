@@ -2,7 +2,14 @@ public class Main {
     public static void main(String[] args) {
         SudokuFileLoader loader =
                 new SudokuFileLoader("..\\APC2\\files\\sudokuN3.csv", false);
-
+        
+        
+        // Busca local.
+        SudokuProblem sudokuProblem = new SudokuProblem(loader, 3, 3);
+        BuscaLocal.heuristica1(sudokuProblem);
+        System.out.println(sudokuProblem);        
+        
+        /*
         for (int i = 0; i < 19; i++) {
             SudokuProblem sudokuProblem = new SudokuProblem(loader, i, 3);
             // Problem:
@@ -74,8 +81,10 @@ public class Main {
             for (int i = 0; i < heuCons.getOrderedQuadrants().length; i++) {
                 System.out.println("Quadrant " + i + ": " + heuCons.getOrderedQuadrants()[i].getNumberOfEmptyCells());
             }
-            */
+            
+        
         }
+    	*/
     }
 
 }

@@ -1,5 +1,6 @@
 public class Cell {
     private boolean ignored;
+    public boolean fixed; // Se celula ja veio preenchida.
     private int id;
     private char value;
     private Row row;
