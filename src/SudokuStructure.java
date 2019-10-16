@@ -159,4 +159,24 @@ public abstract class SudokuStructure {
         }
         return contentString;
     }
+    
+    
+    @Override
+    /**
+     * Estruturas sao iguais se todos os valores das celulas
+     * componentes forem iguais.
+     */
+    public boolean equals(Object obj) { 
+        SudokuStructure struct = (SudokuStructure) obj;  
+        int cont = 0;
+        for (Cell cell : struct.getCells()) {
+        	if (cell.getValue() != this.cells[cont].getValue()) {
+        		return false;
+        	}
+        	cont++;
+        }
+        
+	    return true;
+    }
+    
 }

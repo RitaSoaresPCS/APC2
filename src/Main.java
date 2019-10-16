@@ -5,12 +5,12 @@ public class Main {
         
         
         // Busca local.
-        SudokuGame sudokuProblem = new SudokuGame(loader.problems, 2);
-        SudokuGame sudokuSolution = new SudokuGame(loader.solutions, 2);
-        //BuscaLocal.heuristica1(sudokuProblem, 10000);
-        //BuscaLocal.heuristica2(sudokuProblem, 10000);
-        BuscaLocal.evaluatePerfomance(sudokuProblem, sudokuSolution);
-        System.out.println(sudokuProblem);        
+        for (int i = 0; i < loader.problems.size(); i++) {
+        	SudokuGame sudokuProblem = new SudokuGame(loader.problems, i);
+            SudokuGame sudokuSolution = new SudokuGame(loader.solutions, i);
+        	BuscaLocal.evaluatePerfomance(sudokuProblem, sudokuSolution, 1, 10000);
+        }
+        
         
         /*
         for (int i = 0; i < 19; i++) {

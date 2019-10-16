@@ -296,8 +296,7 @@ public abstract class BuscaLocal {
 
 
 	/**
-	 * Tenta solucionar o problema dado com as duas heuristicas.
-	 * Para cada uma, fornece:
+	 * Mede a qualidade da solucao de uma das heuristicas em:
 	 * - tempo de execucao.
 	 * - precisao das celulas.
 	 * - precisao das linhas.
@@ -306,7 +305,36 @@ public abstract class BuscaLocal {
 	 * @param sudokuProblem
 	 * @param sudokuSolution 
 	 */
-	public static void evaluatePerfomance(SudokuGame sudokuProblem, SudokuGame sudokuSolution) {
+	public static void evaluatePerfomance(SudokuGame sudokuProblem, SudokuGame sudokuSolution, int function, int maxLoops) {
+		// Tempo.
+		long startTime = System.nanoTime();
+		if (function == 1) {
+			heuristica1(sudokuProblem, maxLoops);
+		} else {
+			heuristica2(sudokuProblem, maxLoops);
+		}
+		long endTime = System.nanoTime();
+		double timeElapsed = (endTime - startTime)/1000000;
+		System.out.println("Milisegundos: " + timeElapsed);
+		
+		// Comparacao com a solucao.
+		int equalCells = sudokuProblem.compareCells(sudokuSolution);
+		double percentCell = (double) equalCells*100/sudokuProblem.getCells().length;
+		System.out.println("% celulas: " + percentCell);
+		
+		int equalRows = sudokuProblem.compareRows(sudokuSolution);
+		double percentRow = (double) equalRows*100/sudokuProblem.getRows().length;
+		System.out.println("% linhas: " + percentRow);
+		
+		int equalCols = sudokuProblem.compareColumns(sudokuSolution);
+		double percentColumn = (double) equalCols*100/sudokuProblem.getColumns().length;
+		System.out.println("% colunas: " + percentColumn);
+		
+		int equalQuads = sudokuProblem.compareQuadrants(sudokuSolution);
+		double percentQuad = equalQuads*100/sudokuProblem.getQuadrants().length;
+		System.out.println("% quadrados: " + percentQuad);
+		
+		System.out.println("---");
 		
 	}
 	

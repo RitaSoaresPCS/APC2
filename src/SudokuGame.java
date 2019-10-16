@@ -155,4 +155,56 @@ public class SudokuGame {
 	}
 
 	
+	/**
+	 * Retorna a quantidade de celulas iguais a um outro SudokuGame.
+	 */
+	public int compareCells(SudokuGame sudokuSolution) {
+		int cont = 0;
+		int quant = 0;
+		for (Cell cell : sudokuSolution.getCells()) {
+			if (cell.getValue() == this.cells[cont].getValue()) {
+				quant++;
+			}
+			cont++;
+		}
+		return quant;
+		
+	}
+
+	public int compareRows(SudokuGame sudokuSolution) {
+		int cont = 0;
+		int quant = 0;
+		for (Row row : sudokuSolution.getRows()) {
+			if (row.equals(this.rows[cont])) {
+				quant++;
+			}
+			cont++;
+		}
+		return quant;
+	}
+
+	public int compareColumns(SudokuGame sudokuSolution) {
+		int cont = 0;
+		int quant = 0;
+		for (Column column : sudokuSolution.getColumns()) {
+			if (column.equals(this.columns[cont])) {
+				quant++;
+			}
+			cont++;
+		}
+		return quant;
+	}
+
+	public int compareQuadrants(SudokuGame sudokuSolution) {
+		int cont = 0;
+		int quant = 0;
+		for (Quadrant quad : sudokuSolution.getQuadrants()) {
+			if (quad.equals(this.quadrants[cont])) {
+				quant++;
+			}
+			cont++;
+		}
+		return quant;
+	}
+	
 }
