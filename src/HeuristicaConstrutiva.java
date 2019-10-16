@@ -2,14 +2,14 @@ import java.util.Queue;
 import java.util.Random;
 
 public class HeuristicaConstrutiva {
-    private SudokuProblem sudokuProblem;
+    private SudokuGame sudokuProblem;
     private Cell[] solutionCells;
     private Row[] solutionRows;
     private Column[] solutionColumns;
     private Quadrant[] solutionQuadrants;
     private boolean successfulRun;
 
-    public HeuristicaConstrutiva(SudokuProblem problem) {
+    public HeuristicaConstrutiva(SudokuGame problem) {
 	    this.sudokuProblem = problem;
 	    this.solutionCells = this.sudokuProblem.getCells().clone();
         this.solutionRows = problem.getRows().clone();
@@ -37,7 +37,7 @@ public class HeuristicaConstrutiva {
         return solutionQuadrants;
     }
 
-    public SudokuProblem getSudokuProblem() {
+    public SudokuGame getSudokuProblem() {
         return sudokuProblem;
     }
 

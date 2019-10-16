@@ -21,7 +21,7 @@ public abstract class BuscaLocal {
 	 	Duas celulas sao escolhidas aleatoriamente e sao trocadas. As funcoes de avaliacao correspondentes sao
 	 	recalculadas.
 	 */
-	public static void heuristica1(SudokuProblem problem, int maxLoops) {
+	public static void heuristica1(SudokuGame problem, int maxLoops) {
 		Random seed = new Random();
 		
 		// 1 - Solucao candidata inicial:
@@ -184,7 +184,7 @@ public abstract class BuscaLocal {
 	 	Duas celulas sao escolhidas aleatoriamente e sao trocadas. As funcoes de avaliacao correspondentes sao
 	 	recalculadas.
 	 */
-	public static void heuristica2(SudokuProblem problem, int maxLoops) {
+	public static void heuristica2(SudokuGame problem, int maxLoops) {
 		Random seed = new Random();
 		
 		// 1 - Solucao candidata inicial:
@@ -291,6 +291,22 @@ public abstract class BuscaLocal {
 			evaluationAll = sumEvaluations(evaluationQuad, evaluationColumn);
 			cont++;
 		}
+		
+	}
+
+
+	/**
+	 * Tenta solucionar o problema dado com as duas heuristicas.
+	 * Para cada uma, fornece:
+	 * - tempo de execucao.
+	 * - precisao das celulas.
+	 * - precisao das linhas.
+	 * - precisao das colunas.
+	 * - precisao dos quadrantes.
+	 * @param sudokuProblem
+	 * @param sudokuSolution 
+	 */
+	public static void evaluatePerfomance(SudokuGame sudokuProblem, SudokuGame sudokuSolution) {
 		
 	}
 	

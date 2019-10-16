@@ -1,4 +1,6 @@
-public class SudokuProblem {
+import java.util.ArrayList;
+
+public class SudokuGame {
     // This universal domain supports up to nSize = 6;
     public static char[] universalDomain = new char[]{'1', '2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V', 'W', 'X', 'Y', 'Z', '+'};
     public char[] problemDomain;
@@ -8,8 +10,9 @@ public class SudokuProblem {
     private Column[] columns;
     private Quadrant[] quadrants;
 
-    public SudokuProblem(SudokuFileLoader sudokuSet, int problemNumber) {
-        this.nSize = (int) Math.sqrt(Math.sqrt(sudokuSet.problems.get(problemNumber).length())); // problema vem como n^4
+    public SudokuGame(ArrayList<String> game, int gameNumber) {
+    	// Jogo vem como n^4, entao tira raiz duas vezes para obter n
+        this.nSize = (int) Math.sqrt(Math.sqrt(game.get(gameNumber).length())); 
         int nSize2 = (int) Math.pow(nSize, 2);
         int nSize4 = (int) Math.pow(nSize, 4);
         this.problemDomain = new char[nSize2];
@@ -18,14 +21,15 @@ public class SudokuProblem {
         this.rows = new Row[nSize2];
         this.columns = new Column[nSize2];
         this.quadrants = new Quadrant[nSize2];
+        
 
-        // Choosing Sudoku problem:
-        String sudokuProblemString = sudokuSet.problems.get(problemNumber);
+        // Choosing Sudoku problem or solution:
+        String sudokuProblemString = game.get(gameNumber);
 
-        // Initializing problem's domain from universal Domain:
+        // Initializing game domain from universal Domain:
         // TODO: During the sudoku cells initialization, an error should be returned in case a cell value is found outside problemDomain's boundaries;
         for(int v = 0; v < this.problemDomain.length; v++) {
-            this.problemDomain[v] = SudokuProblem.universalDomain[v];
+            this.problemDomain[v] = SudokuGame.universalDomain[v];
         }
 
         // Initializing sudoku cells from sudoku problem. Every row, column and quadrant will point to these cells:
@@ -67,7 +71,7 @@ public class SudokuProblem {
         return this.nSize;
     }
 
-    private SudokuProblem buildRows() {
+    private SudokuGame buildRows() {
         int nSize2 = (int)Math.pow(this.nSize, 2);
         for(int r = 1; r <= nSize2; r++) {
             Cell[] rowCells = new Cell[nSize2];
@@ -80,7 +84,7 @@ public class SudokuProblem {
         }
         return this;
     }
-    private SudokuProblem buildColumns() {
+    private SudokuGame buildColumns() {
         int nSize2 = (int)Math.pow(this.nSize, 2);
         int nSize4 = (int)Math.pow(this.nSize, 4);
         for(int c = 1; c <= nSize2; c++) {
@@ -94,7 +98,7 @@ public class SudokuProblem {
         }
         return this;
     }
-    private SudokuProblem buildQuadrants() {
+    private SudokuGame buildQuadrants() {
         int nSize2 = (int)Math.pow(this.nSize, 2);
         for(int q = 1; q <= nSize2; q++) {
             Cell[] quadCells = new Cell[nSize2];
