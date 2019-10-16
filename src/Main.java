@@ -5,8 +5,9 @@ public class Main {
         
         
         // Busca local.
-        SudokuProblem sudokuProblem = new SudokuProblem(loader, 3, 3);
-        BuscaLocal.heuristica1(sudokuProblem);
+        SudokuProblem sudokuProblem = new SudokuProblem(loader, 2);
+        //BuscaLocal.heuristica1(sudokuProblem, 10000);
+        BuscaLocal.heuristica2(sudokuProblem, 10000);
         System.out.println(sudokuProblem);        
         
         /*

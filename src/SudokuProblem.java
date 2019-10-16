@@ -8,12 +8,12 @@ public class SudokuProblem {
     private Column[] columns;
     private Quadrant[] quadrants;
 
-    public SudokuProblem(SudokuFileLoader sudokuSet, int problemNumber, int nSize) {
-        this.nSize = nSize;
-        int nSize2 = (int)Math.pow(nSize, 2);
-        int nSize4 = (int)Math.pow(nSize, 4);
+    public SudokuProblem(SudokuFileLoader sudokuSet, int problemNumber) {
+        this.nSize = (int) Math.sqrt(Math.sqrt(sudokuSet.problems.get(problemNumber).length())); // problema vem como n^4
+        int nSize2 = (int) Math.pow(nSize, 2);
+        int nSize4 = (int) Math.pow(nSize, 4);
         this.problemDomain = new char[nSize2];
-        // TODO: nSize should be a SudokuFileLoader calculated property;
+        
         this.cells = new Cell[nSize4];
         this.rows = new Row[nSize2];
         this.columns = new Column[nSize2];
@@ -48,6 +48,10 @@ public class SudokuProblem {
     public Row[] getRows() {
         return this.rows;
     }
+    public Row getRow(int id) {
+    	return this.rows[id];
+	}
+    
     public Quadrant[] getQuadrants() {
         return this.quadrants;
     }
@@ -129,4 +133,22 @@ public class SudokuProblem {
 		this.quadrants[quadrantId].getCell(cell2Id).setValue(cell1);
 		
 	}
+	
+	
+	
+	/**
+     * Muda duas celulas de uma linha de lugar de acordo com os ids.
+     * @param rowId
+     * @param cell1Id
+     * @param cell2Id
+     */
+	public void rowCellSwap(int rowId, int cell1Id, int cell2Id) {
+		char cell1 = this.rows[rowId].getCell(cell1Id).getValue();
+		char cell2 = this.rows[rowId].getCell(cell2Id).getValue();
+		this.rows[rowId].getCell(cell1Id).setValue(cell2);
+		this.rows[rowId].getCell(cell2Id).setValue(cell1);
+		
+	}
+
+	
 }
