@@ -8,7 +8,7 @@ public class Main {
         for (int i = 0; i < loader.problems.size(); i++) {
         	SudokuGame sudokuProblem = new SudokuGame(loader.problems, i);
             SudokuGame sudokuSolution = new SudokuGame(loader.solutions, i);
-        	Metaheuristica.evaluatePerfomance(sudokuProblem, sudokuSolution, 10000, 0.9, 10);
+        	Metaheuristica.evaluatePerfomance(sudokuProblem, sudokuSolution, 1000, 0.9, 10);
         
         	// Pra 3 isso aqui eh top
         	//Metaheuristica.evaluatePerfomance(sudokuProblem, sudokuSolution, 1000, 0.9, 10);
