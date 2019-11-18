@@ -94,39 +94,62 @@ public abstract class BuscaLocal {
 		// 3 - Enquanto a funcao de avaliacao nao for zero ou nao rodar um maximo de vezes, faz a troca na vizinhanca.
 		while (evaluationAll > 0 && cont < maxLoops) {
 			
-			// Troca entre duas celulas diferentes e nao fixas de um quadrado aleatorio.
+			// Seleciona um quadrante aleatoriamente para avaliar.
 			int quadrantId = seed.nextInt(n2);
 			Quadrant quad = problem.getQuadrant(quadrantId);
 			
-			int cell1Id = 0;
-			int cell2Id = 0;
+			// -------------
+			// Troca entre celulas - first improvement.
+			int evaluationNew = evaluationAll;
 			
-			while (
-					cell1Id == cell2Id || 
-					quad.cells[cell1Id].fixed || 
-					quad.cells[cell2Id].fixed
-				) {
-				cell1Id = seed.nextInt(n2);
-				cell2Id = seed.nextInt(n2);
-			}
-			
-			problem.quadrantCellSwap(quadrantId, cell1Id, cell2Id);
+			// Tenta por n^2 vezes trocar aleatoriamente um par de celulas.
+			for (int i = 0; i < n2; i++) {
+				int cell1Id = 0;
+				int cell2Id = 0;
+				
+				while (
+						cell1Id == cell2Id || 
+						quad.cells[cell1Id].fixed || 
+						quad.cells[cell2Id].fixed
+					) {
+					cell1Id = seed.nextInt(n2);
+					cell2Id = seed.nextInt(n2);
+				}
+				
+				int[] evaluationRowOld = evaluationRow.clone();
+				int[] evaluationColumnOld = evaluationColumn.clone();
+				
+				// Troca e avalia.
+				problem.quadrantCellSwap(quadrantId, cell1Id, cell2Id);
+				
+				// Recalcula as linhas e colunas trocadas.
+				evaluationRow = reevaluate(quad.getCell(cell1Id).getRow(), evaluationRow, candidates);
+				if (quad.getCell(cell1Id).getRow().id != quad.getCell(cell2Id).getRow().id) {
+					evaluationRow = reevaluate(quad.getCell(cell2Id).getRow(), evaluationRow, candidates);
+				} 
+				evaluationColumn = reevaluate(quad.getCell(cell1Id).getColumn(), evaluationColumn, candidates);
+				if (quad.getCell(cell1Id).getColumn().id != quad.getCell(cell2Id).getColumn().id) {
+					evaluationColumn = reevaluate(quad.getCell(cell2Id).getColumn(), evaluationColumn, candidates);
+				} 
+				
+	
+				// Se nao for melhor do que a avaliacao anterior, desfaz.
+				evaluationNew = sumEvaluations(evaluationRow, evaluationColumn);
+				if (evaluationNew < evaluationAll) {
+					break;
+				} else {
+					evaluationNew = evaluationAll;
+					problem.quadrantCellSwap(quadrantId, cell2Id, cell1Id);
 					
-		
-			// Recalcula as linhas e colunas trocadas.
-			evaluationRow = reevaluate(quad.getCell(cell1Id).getRow(), evaluationRow, candidates);
-			if (quad.getCell(cell1Id).getRow().id != quad.getCell(cell2Id).getRow().id) {
-				evaluationRow = reevaluate(quad.getCell(cell2Id).getRow(), evaluationRow, candidates);
-			} 
-			
-			evaluationColumn = reevaluate(quad.getCell(cell1Id).getColumn(), evaluationColumn, candidates);
-			if (quad.getCell(cell1Id).getColumn().id != quad.getCell(cell2Id).getColumn().id) {
-				evaluationColumn = reevaluate(quad.getCell(cell2Id).getColumn(), evaluationColumn, candidates);
-			} 
-			
-			evaluationAll = sumEvaluations(evaluationRow, evaluationColumn);
+					evaluationRow = evaluationRowOld;
+					evaluationColumn = evaluationColumnOld;
+				}
+			} // n^2 tentativas.
+				
+			evaluationAll = evaluationNew;
 			cont++;
-		}
+			
+		} // fim while
 	}
 	
 	
@@ -134,7 +157,7 @@ public abstract class BuscaLocal {
 	 * Refaz a funcao de avaliacao para uma linha ou coluna.
 	 * @param struct Row ou Column.
 	 * @param evaluations int[] com funcoes de avaliacao correntes.
-	 * @param candidates ArrayList com todos os candidaos possiveis.
+	 * @param candidates ArrayList com todos os candidatos possiveis.
 	 * @return int[] com funcoes de avaliacao atualizadas.
 	 */
 	private static int[] reevaluate(SudokuStructure struct, int[] evaluations, ArrayList<Character> candidates) {
@@ -258,40 +281,63 @@ public abstract class BuscaLocal {
 		// faz a troca na vizinhanca.
 		while (evaluationAll > 0 && cont < maxLoops) {
 			
-			// Troca entre duas celulas diferentes e nao fixas de uma linha aleatoria.
+			// Seleciona uma linha aleatoriamente para avaliar.
 			int rowId = seed.nextInt(n2);
 			Row row = problem.getRow(rowId);
 			
-			int cell1Id = 0;
-			int cell2Id = 0;
+			// -------------
+			// Troca entre celulas - first improvement.
+			int evaluationNew = evaluationAll;
 			
-			while (
-					cell1Id == cell2Id || 
-					row.cells[cell1Id].fixed || 
-					row.cells[cell2Id].fixed
-				) {
-				cell1Id = seed.nextInt(n2);
-				cell2Id = seed.nextInt(n2);
-			}
-			
-			problem.rowCellSwap(rowId, cell1Id, cell2Id);
+			// Tenta por n^2 vezes trocar aleatoriamente um par de celulas.
+			for (int i = 0; i < n2; i++) {
+				int cell1Id = 0;
+				int cell2Id = 0;
+				
+				while (
+						cell1Id == cell2Id || 
+						row.cells[cell1Id].fixed || 
+						row.cells[cell2Id].fixed
+					) {
+					cell1Id = seed.nextInt(n2);
+					cell2Id = seed.nextInt(n2);
+				}
+				
+				int[] evaluationQuadOld = evaluationQuad.clone();
+				int[] evaluationColumnOld = evaluationColumn.clone();
+				
+				// Troca e avalia.
+				problem.rowCellSwap(rowId, cell1Id, cell2Id);
+						
+				// Recalcula os quadrantes e colunas trocados.
+				evaluationQuad = reevaluate(row.getCell(cell1Id).getQuadrant(), evaluationQuad, candidates);
+				if (row.getCell(cell1Id).getQuadrant().id != row.getCell(cell2Id).getQuadrant().id) {
+					evaluationQuad = reevaluate(row.getCell(cell2Id).getQuadrant(), evaluationQuad, candidates);
+				} 
+				
+				evaluationColumn = reevaluate(row.getCell(cell1Id).getColumn(), evaluationColumn, candidates);
+				if (row.getCell(cell1Id).getColumn().id != row.getCell(cell2Id).getColumn().id) {
+					evaluationColumn = reevaluate(row.getCell(cell2Id).getColumn(), evaluationColumn, candidates);
+				} 
+				
+				// Se nao for melhor do que a avaliacao anterior, desfaz.
+				evaluationNew = sumEvaluations(evaluationQuad, evaluationColumn);
+				if (evaluationNew < evaluationAll) {
+					break;
+				} else {
+					evaluationNew = evaluationAll;
+					problem.rowCellSwap(rowId, cell2Id, cell1Id);
 					
-		
-			// Recalcula os quadrantes e colunas trocados.
-			evaluationQuad = reevaluate(row.getCell(cell1Id).getQuadrant(), evaluationQuad, candidates);
-			if (row.getCell(cell1Id).getQuadrant().id != row.getCell(cell2Id).getQuadrant().id) {
-				evaluationQuad = reevaluate(row.getCell(cell2Id).getQuadrant(), evaluationQuad, candidates);
-			} 
+					evaluationQuad = evaluationQuadOld;
+					evaluationColumn = evaluationColumnOld;
+				}
+				
+			} // n^2 tentativas.
 			
-			evaluationColumn = reevaluate(row.getCell(cell1Id).getColumn(), evaluationColumn, candidates);
-			if (row.getCell(cell1Id).getColumn().id != row.getCell(cell2Id).getColumn().id) {
-				evaluationColumn = reevaluate(row.getCell(cell2Id).getColumn(), evaluationColumn, candidates);
-			} 
-			
-			evaluationAll = sumEvaluations(evaluationQuad, evaluationColumn);
+			evaluationAll = evaluationNew;
 			cont++;
-		}
-		
+			
+		} // fim while
 	}
 
 
