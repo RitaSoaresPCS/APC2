@@ -4,13 +4,25 @@ public class Main {
                 new SudokuFileLoader("..\\APC2\\files\\sudokuN3.csv", false);
         
         
+        // Metaheuristica.
+        for (int i = 0; i < loader.problems.size(); i++) {
+        	SudokuGame sudokuProblem = new SudokuGame(loader.problems, i);
+            SudokuGame sudokuSolution = new SudokuGame(loader.solutions, i);
+        	Metaheuristica.evaluatePerfomance(sudokuProblem, sudokuSolution, 10000, 0.9, 10);
+        
+        	// Pra 3 isso aqui eh top
+        	//Metaheuristica.evaluatePerfomance(sudokuProblem, sudokuSolution, 1000, 0.9, 10);
+        }
+        
+        
+        /*
         // Busca local.
         for (int i = 0; i < loader.problems.size(); i++) {
         	SudokuGame sudokuProblem = new SudokuGame(loader.problems, i);
             SudokuGame sudokuSolution = new SudokuGame(loader.solutions, i);
         	BuscaLocal.evaluatePerfomance(sudokuProblem, sudokuSolution, 1, 10000);
         }
-        
+        */
         
         /*
         for (int i = 0; i < 19; i++) {
